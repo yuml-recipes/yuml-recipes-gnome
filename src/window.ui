@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
-  <template class="YumlrecipesWindow" parent="AdwApplicationWindow">
+  <template class="YumlRecipesWindow" parent="AdwApplicationWindow">
     <property name="default-width">600</property>
     <property name="default-height">300</property>
     <child>
@@ -41,7 +41,7 @@
         <attribute name="action">win.show-help-overlay</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_About Yumlrecipes</attribute>
+        <attribute name="label" translatable="yes">_About Yuml Recipes</attribute>
         <attribute name="action">app.about</attribute>
       </item>
     </section>

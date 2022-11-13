@@ -1,6 +1,6 @@
 # window.py
 #
-# Copyright 2022 Patrick
+# Copyright 2022 Patrick Eschenbach
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,10 +21,12 @@ from gi.repository import Adw
 from gi.repository import Gtk
 
 @Gtk.Template(resource_path='/org/yumlrecipes/yumlrecipes/window.ui')
-class YumlrecipesWindow(Adw.ApplicationWindow):
-    __gtype_name__ = 'YumlrecipesWindow'
+class YumlRecipesWindow(Adw.ApplicationWindow):
+    __gtype_name__ = 'YumlRecipesWindow'
 
     label = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.set_title('Yuml Recipes')
+

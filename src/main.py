@@ -1,6 +1,6 @@
 # main.py
 #
-# Copyright 2022 Patrick
+# Copyright 2022 Patrick Eschenbach
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,10 +24,10 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Gio, Adw
-from .window import YumlrecipesWindow
+from .window import YumlRecipesWindow
 
 
-class YumlrecipesApplication(Adw.Application):
+class YumlRecipesApplication(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
@@ -45,18 +45,18 @@ class YumlrecipesApplication(Adw.Application):
         """
         win = self.props.active_window
         if not win:
-            win = YumlrecipesWindow(application=self)
+            win = YumlRecipesWindow(application=self)
         win.present()
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
-                                application_name='yumlrecipes',
+                                application_name='Yuml Recipes',
                                 application_icon='org.yumlrecipes.yumlrecipes',
-                                developer_name='Patrick',
+                                developer_name='Patrick Eschenbach',
                                 version='0.1.0',
-                                developers=['Patrick'],
-                                copyright='© 2022 Patrick')
+                                developers=['Patrick Eschenbach'],
+                                copyright='© 2022 Patrick Eschenbach')
         about.present()
 
     def on_preferences_action(self, widget, _):
@@ -81,5 +81,6 @@ class YumlrecipesApplication(Adw.Application):
 
 def main(version):
     """The application's entry point."""
-    app = YumlrecipesApplication()
+    app = YumlRecipesApplication()
     return app.run(sys.argv)
+
