@@ -1,0 +1,6 @@
+data/org.yumlrecipes.yumlrecipes.desktop.in
+data/org.yumlrecipes.yumlrecipes.appdata.xml.in
+data/org.yumlrecipes.yumlrecipes.gschema.xml
+src/main.py
+src/window.py
+src/window.ui
