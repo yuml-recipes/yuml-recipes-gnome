@@ -17,13 +17,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
 import sys
 import gi
+import yuml
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Gio, Adw
+from gi.repository import Gtk, Gdk, Gio, Adw
 from .window import YumlRecipesWindow
 
 
@@ -36,6 +38,19 @@ class YumlRecipesApplication(Adw.Application):
         self.create_action('quit', self.quit, ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+        self.init_css()
+
+    def init_css(self):
+        css_resource_path = os.path.join(self.get_resource_base_path(), 'window.css')
+        css_bytes = Gio.resources_lookup_data(css_resource_path, 0)
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_data(css_bytes.get_data())
+
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def do_activate(self):
         """Called when the application is activated.
@@ -47,6 +62,20 @@ class YumlRecipesApplication(Adw.Application):
         if not win:
             win = YumlRecipesWindow(application=self)
         win.present()
+
+        try:
+            path = "/home/patrick/Chili con Carne.yuml"
+            recipe = yuml.recipe_from_file(path)
+            win.show_title(recipe.name)
+            win.show_images(path, recipe.images)
+            win.show_servings(recipe.servings)
+            win.show_ingredients(recipe.ingredients)
+            win.show_steps(recipe.steps)
+            win.show_variants(recipe.variants)
+
+        except yuml.YumlException as ex:
+            win.set_title('Could not load *.yuml')
+            print(str(ex))
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
