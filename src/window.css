@@ -1,12 +1,52 @@
 
-button {
-  background-color: #777777;
+.yuml-body {
+  background-color: #F6F5F4;
 }
 
-.title-1 {
-	background-color: #337755;
-  margin-left: 30px;
-  margin-right: 30px;
+.yuml-image-frame {
+  border-radius: 0;
+}
+
+.yuml-title {
+  margin: 10px;
+  font-size: 30px;
+}
+
+.yuml-combo {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.yuml-frame {
+	background-color: white;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.yuml-ingredient-label {
+  background-color: #68904D;
+  border-radius: 4px;
+  color: white;
+}
+
+.yuml-step-label {
+  background-color: #DA6A00;
+  border-radius: 4px;
+  color: white;
+}
+
+.yuml-variant-label {
+  background-color: #EE9B01;
+  border-radius: 4px;
+  color: white;
+}
+
+.yuml-list {
+  margin: 10px;
   font-size: 20px;
 }
 

@@ -74,7 +74,7 @@ class YumlRecipesApplication(Adw.Application):
             win.show_variants(recipe.variants)
 
         except yuml.YumlException as ex:
-            win.set_title('Could not load *.yuml')
+            win.show_title(f"Couldn't load {path} ...")
             print(str(ex))
 
     def on_about_action(self, widget, _):

@@ -24,7 +24,6 @@ from typing import List
 
 
 class IngredientModel(GObject.GObject):
-
     text = GObject.Property(type=str)
     quantity = GObject.Property(type=str)
 
@@ -33,32 +32,22 @@ class IngredientModel(GObject.GObject):
         self.text = ingredient.text
         self.quantity = ingredient.quantity
 
-    def __str__(self):
-        return str(self.text)
-
 
 class StepModel(GObject.GObject):
-
     text = GObject.Property(type=str)
 
-    def __init__(self, step: yuml.Step):
+    def __init__(self, index: int, step: yuml.Step):
         super().__init__()
+        self.index = f"{index + 1}."
         self.text = step.text
-
-    def __str__(self):
-        return str(self.text)
 
 
 class VariantModel(GObject.GObject):
-
     text = GObject.Property(type=str)
 
     def __init__(self, variant: yuml.Variant):
         super().__init__()
-        self.text = variant.text
-
-    def __str__(self):
-        return str(self.text)
+        self.text = f"-  {variant.text}"
 
 
 @Gtk.Template(resource_path='/org/yumlrecipes/yumlrecipes/window.ui')
@@ -66,58 +55,93 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'YumlRecipesWindow'
 
     image = Gtk.Template.Child()
-    label = Gtk.Template.Child()
-    combobox = Gtk.Template.Child()
-    listbox = Gtk.Template.Child()
-    steplistbox = Gtk.Template.Child()
-    variantlistbox = Gtk.Template.Child()
+    title = Gtk.Template.Child()
+    ingredient_combobox = Gtk.Template.Child()
+    ingredient_frame = Gtk.Template.Child()
+    ingredient_label = Gtk.Template.Child()
+    ingredient_listbox = Gtk.Template.Child()
+    ingredient_quantity_listbox = Gtk.Template.Child()
+    step_frame = Gtk.Template.Child()
+    step_label = Gtk.Template.Child()
+    step_listbox = Gtk.Template.Child()
+    step_index_listbox = Gtk.Template.Child()
+    variant_frame = Gtk.Template.Child()
+    variant_label = Gtk.Template.Child()
+    variant_listbox = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.set_title('Yuml Recipes')
+        self.ingredient_frame.set_label_align(0.5)
+        self.ingredient_label.set_text(" Zutaten ")
+        self.step_frame.set_label_align(0.5)
+        self.step_label.set_text(" Zubereitung ")
+        self.variant_frame.set_label_align(0.5)
+        self.variant_label.set_text(" Varianten ")
 
     def show_title(self, title: str) -> None:
         self.set_title(title)
-        self.label.set_text(title)
+        self.title.set_markup(f"<b>{title}</b>")
 
     def show_images(self, yuml_path: str, images: List[str]) -> None:
         abs_path = os.path.join(os.path.dirname(yuml_path), images[0])
-        self.image.set_from_file(abs_path)
+        self.image.set_filename(abs_path)
 
     def show_servings(self, servings: List[yuml.Serving]) -> None:
         for serving in servings:
-            self.combobox.append_text(serving.text)
+            self.ingredient_combobox.append_text(serving.text)
+            self.ingredient_combobox.set_active(0)
+        if len(servings) <= 1:
+            self.ingredient_combobox.set_sensitive(False)
 
     def show_ingredients(self, ingredients: List[yuml.Ingredient]) -> None:
-        def create_ingredient_entry(ingredient_model: IngredientModel):
-            return Gtk.Label(label=f'{ingredient_model.text} - {ingredient_model.quantity}')
+        def create_name_entry(ingredient_model: IngredientModel):
+            entry = Gtk.Label(label=ingredient_model.text)
+            entry.set_halign(Gtk.Align.END)
+            return entry
+        def create_quantity_entry(ingredient_model: IngredientModel):
+            entry = Gtk.Label(label=ingredient_model.quantity)
+            entry.set_halign(Gtk.Align.START)
+            return entry
 
         ingredient_list_model = Gio.ListStore().new(IngredientModel)
         for ingredient in ingredients:
             ingredient_list_model.append(IngredientModel(ingredient))
 
-        self.listbox.set_selection_mode(Gtk.SelectionMode.NONE)
-        self.listbox.bind_model(ingredient_list_model, create_ingredient_entry)
+        self.ingredient_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.ingredient_listbox.bind_model(ingredient_list_model, create_name_entry)
+        self.ingredient_quantity_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.ingredient_quantity_listbox.bind_model(ingredient_list_model, create_quantity_entry)
 
     def show_steps(self, steps: List[yuml.Step]) -> None:
-        def create_step_entry(step_model: StepModel):
-            return Gtk.Label(label=step_model.text)
+        def create_index_entry(step_model: StepModel):
+            entry = Gtk.Label(label=step_model.index)
+            entry.set_halign(Gtk.Align.END)
+            return entry
+        def create_text_entry(step_model: StepModel):
+            entry = Gtk.Label(label=step_model.text)
+            entry.set_halign(Gtk.Align.START)
+            return entry
 
         step_list_model = Gio.ListStore().new(StepModel)
-        for step in steps:
-            step_list_model.append(StepModel(step))
+        for index, step in enumerate(steps):
+            step_list_model.append(StepModel(index, step))
 
-        self.steplistbox.set_selection_mode(Gtk.SelectionMode.NONE)
-        self.steplistbox.bind_model(step_list_model, create_step_entry)
+        self.step_index_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.step_index_listbox.bind_model(step_list_model, create_index_entry)
+        self.step_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.step_listbox.bind_model(step_list_model, create_text_entry)
 
     def show_variants(self, variants: List[yuml.Variant]) -> None:
         def create_variant_entry(variant_model: VariantModel):
-            return Gtk.Label(label=variant_model.text)
+            entry = Gtk.Label(label=variant_model.text)
+            entry.set_halign(Gtk.Align.START)
+            return entry
 
         variant_list_model = Gio.ListStore().new(VariantModel)
         for variant in variants:
             variant_list_model.append(VariantModel(variant))
 
-        self.variantlistbox.set_selection_mode(Gtk.SelectionMode.NONE)
-        self.variantlistbox.bind_model(variant_list_model, create_variant_entry)
+        self.variant_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.variant_listbox.bind_model(variant_list_model, create_variant_entry)
 
