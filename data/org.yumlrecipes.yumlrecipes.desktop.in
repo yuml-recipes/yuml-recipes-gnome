@@ -6,5 +6,5 @@ Icon=org.yumlrecipes.yumlrecipes
 Terminal=false
 Type=Application
 MimeType=application/x-yuml
-Categories=GTK;
+Categories=GNOME;GTK;Viewer;Amusement
 StartupNotify=true
