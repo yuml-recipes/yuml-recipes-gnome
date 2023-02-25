@@ -1,7 +1,8 @@
 #!/bin/sh
 
 echo "---- build-init ----"
-flatpak build-init --type=app \
+flatpak build-init --update \
+                   --type=app \
                    --arch=x86_64 \
                    _flatpak/staging/x86_64-main \
                    org.yumlrecipes.yumlrecipes \

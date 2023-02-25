@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="yumlrecipes">
-	<schema id="org.yumlrecipes.yumlrecipes" path="/org/yumlrecipes/yumlrecipes/">
-	</schema>
+  <schema id="org.yumlrecipes.yumlrecipes" path="/org/yumlrecipes/yumlrecipes/">
+  </schema>
 </schemalist>

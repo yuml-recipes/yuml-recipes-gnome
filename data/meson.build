@@ -25,6 +25,10 @@ if appstream_util.found()
   test('Validate appstream file', appstream_util, args: ['validate', appstream_file])
 endif
 
+install_data('org.yumlrecipes.yumlrecipes.mime.xml',
+  install_dir: join_paths(get_option('datadir'), 'mime', 'packages')
+)
+
 install_data('org.yumlrecipes.yumlrecipes.gschema.xml',
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )

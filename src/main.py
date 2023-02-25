@@ -21,6 +21,7 @@ import os
 import sys
 import gi
 import yuml
+from urllib import parse
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
@@ -34,7 +35,7 @@ class YumlRecipesApplication(Adw.Application):
 
     def __init__(self):
         super().__init__(application_id='org.yumlrecipes.yumlrecipes',
-                         flags=Gio.ApplicationFlags.FLAGS_NONE)
+                         flags=Gio.ApplicationFlags.HANDLES_OPEN)
         self.create_action('quit', self.quit, ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
@@ -52,19 +53,31 @@ class YumlRecipesApplication(Adw.Application):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-    def do_activate(self):
+    def do_open(self, files, hint, _):
+        for file in files:
+            path = parse.unquote(file.get_uri())
+            schema = 'file://'
+            if path.startswith(schema):
+                path = path[len(schema):]
+            self.do_activate(path)
+            return # Only open the first file.
+
+    def do_activate(self, path=None):
         """Called when the application is activated.
 
         We raise the application's main window, creating it if
         necessary.
         """
+        if path is None:
+            #path = self.choose_recipe()
+            return
+
         win = self.props.active_window
         if not win:
             win = YumlRecipesWindow(application=self)
         win.present()
 
         try:
-            path = "/home/patrick/Chili con Carne.yuml"
             recipe = yuml.recipe_from_file(path)
             win.show_title(recipe.name)
             win.show_images(path, recipe.images)
@@ -76,6 +89,20 @@ class YumlRecipesApplication(Adw.Application):
         except yuml.YumlException as ex:
             win.show_title(f"Couldn't load {path} ...")
             print(str(ex))
+
+    def choose_recipe(self):
+        chooser = Gtk.FileChooserDialog(title="Choose recipe ...",
+                                        parent=None,
+                                        action=Gtk.FileChooserAction.OPEN)
+        chooser.add_buttons("_Open", Gtk.ResponseType.OK)
+        chooser.add_buttons("_Cancel", Gtk.ResponseType.CANCEL)
+        chooser.set_default_response(Gtk.ResponseType.OK)
+        response = chooser.show()
+        if response != Gtk.ResponseType.OK:
+            sys.exit()
+        print("File selected: %s" % chooser.get_filename())
+        chooser.destroy()
+        return chooser.get_filename()
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""

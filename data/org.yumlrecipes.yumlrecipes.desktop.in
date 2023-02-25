@@ -1,8 +1,10 @@
 [Desktop Entry]
 Name=Yuml Recipes
+Comment=One Recipe One Yuml File
 Exec=yumlrecipes
 Icon=org.yumlrecipes.yumlrecipes
 Terminal=false
 Type=Application
+MimeType=application/x-yuml
 Categories=GTK;
 StartupNotify=true
