@@ -7,4 +7,5 @@ Terminal=false
 Type=Application
 MimeType=application/x-yuml
 Categories=GNOME;GTK;Viewer;Amusement
+Keywords=recipe;cooking;yuml;
 StartupNotify=true

@@ -54,6 +54,7 @@ class VariantModel(GObject.GObject):
 class YumlRecipesWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'YumlRecipesWindow'
 
+    image_frame = Gtk.Template.Child()
     image = Gtk.Template.Child()
     title = Gtk.Template.Child()
     ingredient_combobox = Gtk.Template.Child()
@@ -83,9 +84,12 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
         self.set_title(title)
         self.title.set_markup(f"<b>{title}</b>")
 
-    def show_images(self, yuml_path: str, images: List[str]) -> None:
-        abs_path = os.path.join(os.path.dirname(yuml_path), images[0])
-        self.image.set_filename(abs_path)
+    def show_images(self, images: List[str]) -> None:
+        if len(images) == 0:
+            self.image_frame.set_visible(False)
+            return
+
+        self.image.set_filename(images[0])
 
     def show_servings(self, servings: List[yuml.Serving]) -> None:
         for serving in servings:
@@ -114,6 +118,10 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
         self.ingredient_quantity_listbox.bind_model(ingredient_list_model, create_quantity_entry)
 
     def show_steps(self, steps: List[yuml.Step]) -> None:
+        if len(steps) == 0:
+            self.step_frame.set_visible(False)
+            return
+
         def create_index_entry(step_model: StepModel):
             entry = Gtk.Label(label=step_model.index)
             entry.set_halign(Gtk.Align.END)
@@ -133,6 +141,10 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
         self.step_listbox.bind_model(step_list_model, create_text_entry)
 
     def show_variants(self, variants: List[yuml.Variant]) -> None:
+        if len(variants) == 0:
+            self.variant_frame.set_visible(False)
+            return
+
         def create_variant_entry(variant_model: VariantModel):
             entry = Gtk.Label(label=variant_model.text)
             entry.set_halign(Gtk.Align.START)

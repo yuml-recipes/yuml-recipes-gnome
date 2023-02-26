@@ -68,9 +68,9 @@ class YumlRecipesApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        if path is None:
+        #if path is None:
             #path = self.choose_recipe()
-            return
+            #return
 
         win = self.props.active_window
         if not win:
@@ -80,7 +80,7 @@ class YumlRecipesApplication(Adw.Application):
         try:
             recipe = yuml.recipe_from_file(path)
             win.show_title(recipe.name)
-            win.show_images(path, recipe.images)
+            win.show_images(recipe.images)
             win.show_servings(recipe.servings)
             win.show_ingredients(recipe.ingredients)
             win.show_steps(recipe.steps)

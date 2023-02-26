@@ -6,7 +6,10 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 
 ![Yuml Recipes Preview](preview/preview.png "Yuml Recipes Preview")
 
-## Setup
+## Installation
+
+- Add flathub repo
+- From flathub `flatpak install org.yumlrecipes.yumlrecipes`
 
 - Run `./build` to build and verify
 - Run `./export` to create the *.flatpak
@@ -21,6 +24,7 @@ Run `xdg-open filename.yuml` to get console output.
 ## Links
 
 - [GTK4 Widget Documentation](https://docs.gtk.org/gtk4/index.html)
+- [GNOME Integration](https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html?highlight=mime)
 
 ## License
 
