@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./export.sh
+./build.sh
 
 echo "---- install ----"
 flatpak install --user \

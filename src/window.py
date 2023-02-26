@@ -23,14 +23,22 @@ from gi.repository import Gtk, Gio, GObject, Adw
 from typing import List
 
 
+class QuantityModel(GObject.GObject):
+    quantity = GObject.Property(type=str)
+
+    def __init__(self, quantity: str):
+        super().__init__()
+        self.quantity = quantity
+
+
 class IngredientModel(GObject.GObject):
     text = GObject.Property(type=str)
-    quantity = GObject.Property(type=str)
+    quantities = GObject.Property(type=str)
 
     def __init__(self, ingredient: yuml.Ingredient):
         super().__init__()
         self.text = ingredient.text
-        self.quantity = ingredient.quantity
+        self.quantities = ingredient.quantities
 
 
 class StepModel(GObject.GObject):
@@ -79,6 +87,17 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
         self.step_label.set_text(" Zubereitung ")
         self.variant_frame.set_label_align(0.5)
         self.variant_label.set_text(" Varianten ")
+        self.ingredient_combobox.connect('changed', self.__on_serving_changed)
+        self.ingredients = None
+
+        def create_quantity_entry(quantity_model: QuantityModel):
+            entry = Gtk.Label(label=quantity_model.quantity)
+            entry.set_halign(Gtk.Align.START)
+            return entry
+
+        self.quantity_list_model = Gio.ListStore().new(QuantityModel)
+        self.ingredient_quantity_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.ingredient_quantity_listbox.bind_model(self.quantity_list_model, create_quantity_entry)
 
     def show_title(self, title: str) -> None:
         self.set_title(title)
@@ -94,18 +113,27 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
     def show_servings(self, servings: List[yuml.Serving]) -> None:
         for serving in servings:
             self.ingredient_combobox.append_text(serving.text)
-            self.ingredient_combobox.set_active(0)
-        if len(servings) <= 1:
-            self.ingredient_combobox.set_sensitive(False)
+        if len(servings) == 0:
+            self.ingredient_combobox.set_visible(False)
+        elif len(servings) == 1:
+            if servings[0].text:
+                self.ingredient_combobox.set_sensitive(False)
+            else:
+                self.ingredient_combobox.set_visible(False)
+
+    def __on_serving_changed(self, combobox):
+        index = combobox.get_active()
+        if index is None and self.ingredients is None:
+            return
+        self.quantity_list_model.remove_all()
+        for ingredient in self.ingredients:
+            quantity = ingredient.quantities[index]
+            self.quantity_list_model.append(QuantityModel(quantity))
 
     def show_ingredients(self, ingredients: List[yuml.Ingredient]) -> None:
         def create_name_entry(ingredient_model: IngredientModel):
             entry = Gtk.Label(label=ingredient_model.text)
             entry.set_halign(Gtk.Align.END)
-            return entry
-        def create_quantity_entry(ingredient_model: IngredientModel):
-            entry = Gtk.Label(label=ingredient_model.quantity)
-            entry.set_halign(Gtk.Align.START)
             return entry
 
         ingredient_list_model = Gio.ListStore().new(IngredientModel)
@@ -114,8 +142,9 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
 
         self.ingredient_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
         self.ingredient_listbox.bind_model(ingredient_list_model, create_name_entry)
-        self.ingredient_quantity_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
-        self.ingredient_quantity_listbox.bind_model(ingredient_list_model, create_quantity_entry)
+
+        self.ingredients = ingredients
+        self.ingredient_combobox.set_active(0)
 
     def show_steps(self, steps: List[yuml.Step]) -> None:
         if len(steps) == 0:
@@ -132,8 +161,8 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
             return entry
 
         step_list_model = Gio.ListStore().new(StepModel)
-        for index, step in enumerate(steps):
-            step_list_model.append(StepModel(index, step))
+        for step in steps:
+            step_list_model.append(StepModel(step.index, step))
 
         self.step_index_listbox.set_selection_mode(Gtk.SelectionMode.NONE)
         self.step_index_listbox.bind_model(step_list_model, create_index_entry)

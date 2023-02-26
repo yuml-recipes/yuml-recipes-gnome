@@ -59,8 +59,24 @@
             ],
             "sources": [
                 {
+                    "type": "file",
+                    "url": "https://github.com/yuml-recipes/yuml-recipes-py/releases/download/v0.1.0/yumlrecipes-0.1.0-py3-none-any.whl",
+                    "sha256": "14f2ef862a8b8adc45a403986486889381da27d770fb4dd3b2aedad12f45f84f"
+                }
+            ]
+        },
+        {
+            "name": "python3-yumlrecipes-dev",
+            "buildsystem": "simple",
+            "build-commands": [
+                "echo ${PWD}",
+                "ls -l ${PWD}",
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"yumlrecipes==0.1.0\" --no-build-isolation"
+            ],
+            "sources": [
+                {
                     "type": "dir",
-                    "path": "../yuml-recipes-lib/dist"
+                    "path": "../yuml-recipes-py/dist"
                 }
             ]
         }
