@@ -58,8 +58,10 @@
         <child>
           <object class="GtkFrame" id="ingredient_frame">
             <property name="vexpand">true</property>
+            <property name="label-xalign">0.5</property>
             <child type="label">
               <object class="GtkLabel" id="ingredient_label">
+                <property name="label"> Zutaten </property>
                 <style>
                   <class name="yuml-ingredient-label"/>
                 </style>
@@ -72,7 +74,7 @@
               <object class="GtkGrid">
 <!-- # SERVINGS ####################################### -->
                 <child>
-                  <object class="GtkComboBoxText" id="ingredient_combobox">
+                  <object class="GtkComboBoxText" id="serving_combobox">
                     <style>
                       <class name="yuml-combo"/>
                     </style>
@@ -116,8 +118,10 @@
         <child>
           <object class="GtkFrame" id="step_frame">
             <property name="vexpand">true</property>
+            <property name="label-xalign">0.5</property>
             <child type="label">
               <object class="GtkLabel" id="step_label">
+                <property name="label"> Zubereitung </property>
                 <style>
                   <class name="yuml-step-label"/>
                 </style>
@@ -155,8 +159,10 @@
         <child>
           <object class="GtkFrame" id="variant_frame">
             <property name="vexpand">true</property>
+            <property name="label-xalign">0.5</property>
             <child type="label">
               <object class="GtkLabel" id="variant_label">
+                <property name="label"> Varianten </property>
                 <style>
                   <class name="yuml-variant-label"/>
                 </style>
