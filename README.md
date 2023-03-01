@@ -8,7 +8,7 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 
 ![Yuml Recipes Preview](preview/preview.png "Yuml Recipes Preview")
 
-[See the corresponding 'Chili con Carne.yuml' file.](preview/Chili con Carne.yuml)
+[See the corresponding 'Chili con Carne.yuml' file.](<preview/Chili con Carne.yuml>)
 
 ## Installation
 
