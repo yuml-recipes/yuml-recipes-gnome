@@ -38,6 +38,7 @@ Run `xdg-open filename.yuml` to get console output.
 ## Links
 
 - [Flatpak PIP Generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/pip)
+- [Flatpak CI Docker Image](https://hub.docker.com/r/bilelmoussaoui/flatpak-github-actions)
 - [GTK4 Widget Documentation](https://docs.gtk.org/gtk4/index.html)
 - [GNOME Integration](https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html?highlight=mime)
 
