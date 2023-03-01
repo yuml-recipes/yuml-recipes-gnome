@@ -137,4 +137,4 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
             self.variant_frame.set_visible(False)
         else:
             for variant in variants:
-                self.variant_list_model.append(ListModel(variant.text, Gtk.Align.START))
+                self.variant_list_model.append(ListModel(f"-  {variant.text}", Gtk.Align.START))
