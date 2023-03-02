@@ -34,9 +34,10 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 
 ## Hints
 
-### Open by mimetype from console
+### Manage mimetype from console
 
-- Run `xdg-open filename.yuml` to get console output.
+- Run `xdg-open filename.yuml` to run and get console output
+- Run `xdg-mime default org.yumlrecipes.yumlrecipes.desktop application/x-yuml` to set as default
 
 ### Important locations for development
 
