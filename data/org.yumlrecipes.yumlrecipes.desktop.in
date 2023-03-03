@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Yuml Recipes
 Comment=One Recipe One Yuml File
-Exec=yumlrecipes
+Exec=yumlrecipes %f
 Icon=org.yumlrecipes.yumlrecipes
 Terminal=false
 Type=Application

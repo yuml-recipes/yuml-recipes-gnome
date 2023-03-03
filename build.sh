@@ -17,7 +17,7 @@ flatpak-builder --arch=x86_64 \
                 --state-dir \
                 _flatpak-builder \
                 _flatpak/staging/x86_64-main \
-                org.yumlrecipes.yumlrecipes.json
+                org.yumlrecipes.yumlrecipes.yaml
 
 echo "---- build-export ----"
 flatpak build-export --arch=x86_64 \
