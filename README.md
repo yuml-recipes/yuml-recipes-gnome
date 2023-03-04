@@ -26,7 +26,6 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 
 - Better support for long text with multi-line labels, max. width and vertical scrolling
 - Support for *.yuml files packaged with their images as ZIP file keeping the *.yuml extension
-- Support for opening multiple app instances
 
 ## Hints
 

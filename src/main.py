@@ -57,13 +57,10 @@ class YumlRecipesApplication(Adw.Application):
         """Called when the application is opened with a file."""
         for file in files:
             self.do_activate(self.get_file_path(file))
-            return # Only open the first file.
 
     def do_activate(self, path: str = None):
         """Called when the application is activated."""
-        win = self.props.active_window
-        if not win:
-            win = YumlRecipesWindow(application=self)
+        win = YumlRecipesWindow(application=self)
         win.present()
 
         if path:
