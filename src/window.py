@@ -52,6 +52,7 @@ class YumlRecipesWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
         self.set_title('Yuml Recipes')
         self.serving_combobox.connect('changed', self.__on_serving_changed)
+        self.initial_title = self.title.get_text()
         self.ingredients = None
 
         def create_entry(list_model: ListModel):

@@ -25,10 +25,6 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 ## Roadmap
 
 - Better support for long text with multi-line labels, max. width and vertical scrolling
-- Useful options when started explicitly without any file to open:
-  - Check if set as default for mimetype `x-yuml` and if not offer to set it
-  - Offer a file chooser to open *.yuml files
-  - Allow searching and filtering all *.yuml files in the home directory
 - Support for *.yuml files packaged with their images as ZIP file keeping the *.yuml extension
 - Support for opening multiple app instances
 

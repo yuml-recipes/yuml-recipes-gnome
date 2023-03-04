@@ -54,29 +54,24 @@ class YumlRecipesApplication(Adw.Application):
         )
 
     def do_open(self, files, hint, _):
+        """Called when the application is opened with a file."""
         for file in files:
-            path = parse.unquote(file.get_uri())
-            schema = 'file://'
-            if path.startswith(schema):
-                path = path[len(schema):]
-            self.do_activate(path)
+            self.do_activate(self.get_file_path(file))
             return # Only open the first file.
 
-    def do_activate(self, path=None):
-        """Called when the application is activated.
-
-        We raise the application's main window, creating it if
-        necessary.
-        """
-        #if path is None:
-            #path = self.choose_recipe()
-            #return
-
+    def do_activate(self, path: str = None):
+        """Called when the application is activated."""
         win = self.props.active_window
         if not win:
             win = YumlRecipesWindow(application=self)
         win.present()
 
+        if path:
+            self.open_recipe(win, path)
+        else:
+            path = self.choose_recipe(win)
+
+    def open_recipe(self, win: YumlRecipesWindow, path: str):
         try:
             recipe = yuml.recipe_from_file(path)
             win.show_title(recipe.name)
@@ -90,19 +85,29 @@ class YumlRecipesApplication(Adw.Application):
             win.show_title(f"Couldn't load {path}: {str(ex)}")
             print(str(ex))
 
-    def choose_recipe(self):
-        chooser = Gtk.FileChooserDialog(title="Choose recipe ...",
-                                        parent=None,
+    def choose_recipe(self, win: YumlRecipesWindow):
+        chooser = Gtk.FileChooserNative(title=win.initial_title,
+                                        transient_for=win,
+                                        modal=True,
                                         action=Gtk.FileChooserAction.OPEN)
-        chooser.add_buttons("_Open", Gtk.ResponseType.OK)
-        chooser.add_buttons("_Cancel", Gtk.ResponseType.CANCEL)
-        chooser.set_default_response(Gtk.ResponseType.OK)
-        response = chooser.show()
-        if response != Gtk.ResponseType.OK:
-            sys.exit()
-        print("File selected: %s" % chooser.get_filename())
-        chooser.destroy()
-        return chooser.get_filename()
+        file_filter = Gtk.FileFilter()
+        file_filter.add_mime_type('application/x-yuml')
+        chooser.add_filter(file_filter)
+        def on_response(file_chooser, _):
+            if file_chooser.get_file() is not None:
+                file = file_chooser.get_file()
+                self.open_recipe(win, self.get_file_path(file))
+            else:
+                sys.exit(0)
+        chooser.connect("response", on_response)
+        chooser.show()
+
+    def get_file_path(self, file: Gio.File) -> str:
+        path = parse.unquote(file.get_uri())
+        schema = 'file://'
+        if path.startswith(schema):
+            path = path[len(schema):]
+        return path
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""

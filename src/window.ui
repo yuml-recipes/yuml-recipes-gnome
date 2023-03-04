@@ -45,7 +45,7 @@
      ################################################## -->
         <child>
           <object class="GtkLabel" id="title">
-            <property name="label">Hello, World!</property>
+            <property name="label">Öffne ein Rezept (*.yuml) ...</property>
             <property name="halign">GTK_ALIGN_START</property>
             <style>
               <class name="yuml-title"/>
