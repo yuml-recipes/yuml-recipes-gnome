@@ -24,8 +24,8 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 
 ## Roadmap
 
-- Better support for long text with multi-line labels, max. width and vertical scrolling
 - Support for *.yuml files packaged with their images as ZIP file keeping the *.yuml extension
+  - Export thumbnailer to give the zipped_recipe.yuml the thumbnail of its image, see [Flatpak thumbnailer feature request](https://github.com/flatpak/flatpak/issues/4923)
 
 ## Hints
 
@@ -45,10 +45,12 @@ This is the GNOME application for Yuml Recipes. It opens *.yuml files by registe
 
 ## Links
 
+- [GTK 3 Python Reference](https://amolenaar.github.io/pgi-docgen/)
+- [GTK 3 How Do I](https://wiki.gnome.org/HowDoI/Labels)
+- [GTK 4 Widget Documentation](https://docs.gtk.org/gtk4/index.html)
+- [GNOME Integration](https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html?highlight=mime)
 - [Flatpak PIP Generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/pip)
 - [Flatpak CI Docker Image](https://hub.docker.com/r/bilelmoussaoui/flatpak-github-actions)
-- [GTK4 Widget Documentation](https://docs.gtk.org/gtk4/index.html)
-- [GNOME Integration](https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html?highlight=mime)
 
 ## License
 
@@ -56,5 +58,5 @@ GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
 GPL-3.0
 
-Copyright (c) 2022 Patrick Eschenbach
+Copyright (c) 2023 Patrick Eschenbach
 

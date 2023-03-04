@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
   <template class="YumlRecipesWindow" parent="AdwApplicationWindow">
-    <property name="default-width">600</property>
+    <property name="default-width">800</property>
     <property name="default-height">600</property>
 <!-- ##################################################
      # BODY
@@ -25,158 +25,148 @@
           </object>
         </child>
 <!-- ##################################################
-     # IMAGE
+     # CONTENT
      ################################################## -->
         <child>
-          <object class="GtkFrame" id="image_frame">
-            <property name="vexpand">true</property>
-            <style>
-              <class name="yuml-image-frame"/>"
-            </style>"
+          <object class="GtkScrolledWindow" id="scrolled_window">
+            <property name="hscrollbar-policy">GTK_POLICY_NEVER</property>
+            <property name="vscrollbar-policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="max-content-height">1000</property>
             <child>
-              <object class="GtkPicture" id="image">
-                <property name="content-fit">GTK_CONTENT_FIT_COVER</property>
-              </object>
-            </child>
-          </object>
-        </child>
+              <object class="GtkBox" id="content">
+                <property name="orientation">vertical</property>
+<!-- ##################################################
+     # IMAGE
+     ################################################## -->
+                <child>
+                  <object class="GtkFrame" id="image_frame">
+                    <property name="vexpand">true</property>
+                    <style>
+                      <class name="yuml-image-frame"/>
+                    </style>
+                    <child>
+                      <object class="GtkPicture" id="image">
+                        <property name="content-fit">GTK_CONTENT_FIT_COVER</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
 <!-- ##################################################
      # TITLE
      ################################################## -->
-        <child>
-          <object class="GtkLabel" id="title">
-            <property name="label">Öffne ein Rezept (*.yuml) ...</property>
-            <property name="halign">GTK_ALIGN_START</property>
-            <style>
-              <class name="yuml-title"/>
-            </style>
-          </object>
-        </child>
+                <child>
+                  <object class="GtkLabel" id="title">
+                    <property name="label">Öffne ein Rezept (*.yuml) ...</property>
+                    <property name="halign">GTK_ALIGN_START</property>
+                    <property name="selectable">true</property>
+                    <style>
+                      <class name="yuml-title"/>
+                    </style>
+                  </object>
+                </child>
 <!-- ##################################################
      # INGREDIENTS
      ################################################## -->
-        <child>
-          <object class="GtkFrame" id="ingredient_frame">
-            <property name="vexpand">true</property>
-            <property name="label-xalign">0.5</property>
-            <child type="label">
-              <object class="GtkLabel" id="ingredient_label">
-                <property name="label"> Zutaten </property>
-                <style>
-                  <class name="yuml-ingredient-label"/>
-                </style>
-              </object>
-            </child>
-            <style>
-              <class name="yuml-frame"/>
-            </style>
-            <child>
-              <object class="GtkGrid">
+                <child>
+                  <object class="GtkFrame" id="ingredient_frame">
+                    <property name="vexpand">true</property>
+                    <property name="label-xalign">0.5</property>
+                    <child type="label">
+                      <object class="GtkLabel" id="ingredient_label">
+                        <property name="label"> Zutaten </property>
+                        <style>
+                          <class name="yuml-ingredient-label"/>
+                        </style>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="yuml-frame"/>
+                    </style>
+<!-- # GRID ########################################### -->
+                    <child>
+                      <object class="GtkGrid" id="ingredient_grid">
+                        <property name="row-spacing">5</property>
+                        <style>
+                          <class name="yuml-grid"/>
+                        </style>
 <!-- # SERVINGS ####################################### -->
-                <child>
-                  <object class="GtkComboBoxText" id="serving_combobox">
-                    <style>
-                      <class name="yuml-combo"/>
-                    </style>
-                    <layout>
-                      <property name="column">1</property>
-                      <property name="row">0</property>
-                    </layout>
+                        <child>
+                          <object class="GtkComboBoxText" id="serving_combobox">
+                            <property name="halign">GTK_ALIGN_START</property>
+                            <style>
+                              <class name="yuml-combo"/>
+                            </style>
+                            <layout>
+                              <property name="column">1</property>
+                              <property name="row">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
-<!-- # TEXT ########################################### -->
-                <child>
-                  <object class="GtkListBox" id="ingredient_listbox">
-                    <style>
-                      <class name="yuml-list"/>
-                    </style>
-                    <layout>
-                      <property name="column">0</property>
-                      <property name="row">1</property>
-                    </layout>
-                  </object>
-                </child>
-<!-- # QUANTITY ####################################### -->
-                <child>
-                  <object class="GtkListBox" id="ingredient_quantity_listbox">
-                    <style>
-                      <class name="yuml-list"/>
-                    </style>
-                    <layout>
-                      <property name="column">1</property>
-                      <property name="row">1</property>
-                    </layout>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
 <!-- ##################################################
      # STEPS
      ################################################## -->
-        <child>
-          <object class="GtkFrame" id="step_frame">
-            <property name="vexpand">true</property>
-            <property name="label-xalign">0.5</property>
-            <child type="label">
-              <object class="GtkLabel" id="step_label">
-                <property name="label"> Zubereitung </property>
-                <style>
-                  <class name="yuml-step-label"/>
-                </style>
-              </object>
-            </child>
-            <style>
-              <class name="yuml-frame"/>
-            </style>
-            <child>
-              <object class="GtkBox">
-                <property name="orientation">horizontal</property>
-<!-- # INDEX ########################################## -->
                 <child>
-                  <object class="GtkListBox" id="step_index_listbox">
+                  <object class="GtkFrame" id="step_frame">
+                    <property name="vexpand">true</property>
+                    <property name="label-xalign">0.5</property>
+                    <child type="label">
+                      <object class="GtkLabel" id="step_label">
+                        <property name="label"> Zubereitung </property>
+                        <style>
+                          <class name="yuml-step-label"/>
+                        </style>
+                      </object>
+                    </child>
                     <style>
-                      <class name="yuml-list"/>
+                      <class name="yuml-frame"/>
                     </style>
+<!-- # GRID ########################################### -->
+                    <child>
+                      <object class="GtkGrid" id="step_grid">
+                        <property name="row-spacing">5</property>
+                        <style>
+                          <class name="yuml-grid"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
-<!-- # TEXT ########################################### -->
-                <child>
-                  <object class="GtkListBox" id="step_listbox">
-                    <style>
-                      <class name="yuml-list"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
 <!-- ##################################################
      # VARIANTS
      ################################################## -->
-        <child>
-          <object class="GtkFrame" id="variant_frame">
-            <property name="vexpand">true</property>
-            <property name="label-xalign">0.5</property>
-            <child type="label">
-              <object class="GtkLabel" id="variant_label">
-                <property name="label"> Varianten </property>
-                <style>
-                  <class name="yuml-variant-label"/>
-                </style>
-              </object>
-            </child>
-            <style>
-              <class name="yuml-frame"/>
-            </style>
-<!-- # TEXT ########################################### -->
-            <child>
-              <object class="GtkListBox" id="variant_listbox">
-                <style>
-                  <class name="yuml-list"/>
-                </style>
+                <child>
+                  <object class="GtkFrame" id="variant_frame">
+                    <property name="vexpand">true</property>
+                    <property name="label-xalign">0.5</property>
+                    <child type="label">
+                      <object class="GtkLabel" id="variant_label">
+                        <property name="label"> Varianten </property>
+                        <style>
+                          <class name="yuml-variant-label"/>
+                        </style>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="yuml-frame"/>
+                    </style>
+<!-- # GRID ########################################### -->
+                    <child>
+                      <object class="GtkGrid" id="variant_grid">
+                        <property name="row-spacing">5</property>
+                        <style>
+                          <class name="yuml-grid"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+<!-- ##################################################
+     # CONTENT END
+     ################################################## -->
               </object>
             </child>
           </object>

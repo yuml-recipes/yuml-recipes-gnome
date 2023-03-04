@@ -36,7 +36,7 @@ class YumlRecipesApplication(Adw.Application):
     def __init__(self):
         super().__init__(application_id='org.yumlrecipes.yumlrecipes',
                          flags=Gio.ApplicationFlags.HANDLES_OPEN)
-        self.create_action('quit', self.quit, ['<primary>q'])
+        self.create_action('quit', self.on_quit_action, ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
         self.init_css()
@@ -77,6 +77,7 @@ class YumlRecipesApplication(Adw.Application):
             win.show_ingredients(recipe.ingredients)
             win.show_steps(recipe.steps)
             win.show_variants(recipe.variants)
+            win.ensure_natural_height()
 
         except yuml.YumlException as ex:
             win.show_title(f"Couldn't load {path}: {str(ex)}")
@@ -105,6 +106,9 @@ class YumlRecipesApplication(Adw.Application):
         if path.startswith(schema):
             path = path[len(schema):]
         return path
+
+    def on_quit_action(self, action, param):
+        self.quit()
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
