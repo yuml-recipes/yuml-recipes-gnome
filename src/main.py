@@ -116,9 +116,9 @@ class YumlRecipesApplication(Adw.Application):
                                 application_name='Yuml Recipes',
                                 application_icon='org.yumlrecipes.yumlrecipes',
                                 developer_name='Patrick Eschenbach',
-                                version='0.1.0',
+                                version='0.2.0',
                                 developers=['Patrick Eschenbach'],
-                                copyright='© 2022 Patrick Eschenbach')
+                                copyright='© 2023 Patrick Eschenbach')
         about.present()
 
     def on_preferences_action(self, widget, _):
